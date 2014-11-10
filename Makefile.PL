@@ -44,7 +44,7 @@ sub My_WriteMakefile {
 sub getRegexes {
     my $response;
     my $stream;
-    my $url = 'https://raw.github.com/tobie/ua-parser/master/regexes.yaml';
+    my $url = 'https://raw.githubusercontent.com/ua-parser/uap-core/master/regexes.yaml';
     #trying curl
     print "Trying curl\n";
     open $stream, "-|", "curl $url" or die;

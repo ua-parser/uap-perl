@@ -2,7 +2,7 @@
 use YAML::Tiny;
 use LWP::UserAgent;
 
-my $resources = 'https://raw.github.com/tobie/ua-parser/master/test_resources/';
+my $resources = 'https://raw.githubusercontent.com/ua-parser/uap-core/master/test_resources/';
 
 sub get_test_yaml {
     my $file = shift;
