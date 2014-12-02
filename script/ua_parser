@@ -45,23 +45,23 @@ sub update {
 sub getFile {
     my $response;
     my $stream;
-    my $url = 'https://raw.github.com/tobie/ua-parser/master/regexes.yaml';
+    my $url = 'https://raw.githubusercontent.com/ua-parser/uap-core/master/regexes.yaml';
     #trying curl
     print "Trying curl\n";
-    open $stream, "-|", "curl $url" or die;
+    open $stream, "-|", "curl $url";
     while(<$stream>) { $response .= "$_" };
     
     ##trying wget
     if (!$response){
 	print "Trying wget\n";
-	open $stream, "-|", "wget $url" or die;
+	open $stream, "-|", "wget $url";
 	while(<$stream>) { $response .= "$_" };
     }
     
     ##trying lwp-request
     if (!$response){
 	print "Trying lwp-request\n";
-	open $stream, "-|", "lwp-request $url" or die;
+	open $stream, "-|", "lwp-request $url";
 	while(<$stream>) { $response .= "$_" };
     }
     
@@ -72,7 +72,7 @@ sub getFile {
 	print "We couldn't locate LWP::UserAgent Module\n";
 	print "LWP::UserAgent required to fetch regexes.yaml from server\n";
 	print "Please install it or get regexes.yaml file manually from\n";
-	print "https://raw.github.com/tobie/ua-parser/master/regexes.yaml\n";
+	print "$url\n";
 	print "and place it in the root folder of this distro\n";
 	print "then run Makefile.PL again\n";
 	exit;

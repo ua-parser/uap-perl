@@ -3,7 +3,7 @@ use strict;
 use Test::More;
 use FindBin qw($Bin);
 
-my $source = 'firefox_user_agent_strings.yaml';
+my $source = 'test_resources/firefox_user_agent_strings.yaml';
 
 eval {
     require($Bin . '/utils.pl');

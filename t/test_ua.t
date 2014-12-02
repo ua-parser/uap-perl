@@ -3,7 +3,7 @@ use strict;
 use Test::More;
 use FindBin qw($Bin);
 
-my $source = 'test_user_agent_parser.yaml';
+my $source = 'tests/test_ua.yaml';
 
 eval {
     require($Bin . '/utils.pl');
