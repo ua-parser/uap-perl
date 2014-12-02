@@ -53,29 +53,29 @@ sub getFile {
     
     ##trying wget
     if (!$response){
-	print "Trying wget\n";
-	open $stream, "-|", "wget $url";
-	while(<$stream>) { $response .= "$_" };
+        print "Trying wget\n";
+        open $stream, "-|", "wget $url";
+        while(<$stream>) { $response .= "$_" };
     }
     
     ##trying lwp-request
     if (!$response){
-	print "Trying lwp-request\n";
-	open $stream, "-|", "lwp-request $url";
-	while(<$stream>) { $response .= "$_" };
+        print "Trying lwp-request\n";
+        open $stream, "-|", "lwp-request $url";
+        while(<$stream>) { $response .= "$_" };
     }
     
     return $response if $response;
     print "Trying to fetch using LWP::UserAgent\n";
     eval "use LWP::UserAgent";
     if ($@){
-	print "We couldn't locate LWP::UserAgent Module\n";
-	print "LWP::UserAgent required to fetch regexes.yaml from server\n";
-	print "Please install it or get regexes.yaml file manually from\n";
-	print "$url\n";
-	print "and place it in the root folder of this distro\n";
-	print "then run Makefile.PL again\n";
-	exit;
+        print "We couldn't locate LWP::UserAgent Module\n";
+        print "LWP::UserAgent required to fetch regexes.yaml from server\n";
+        print "Please install it or get regexes.yaml file manually from\n";
+        print "$url\n";
+        print "and place it in the root folder of this distro\n";
+        print "then run Makefile.PL again\n";
+        exit;
     }
     my $ua = LWP::UserAgent->new;
     $ua->timeout(5);

@@ -10,7 +10,7 @@ My_WriteMakefile(
     VERSION_FROM      => 'lib/HTTP/UA/Parser.pm', # finds $VERSION
     EXE_FILES    => ['script/ua_parser'],
     PREREQ_PM         => {
-	'YAML::Tiny' => 0
+        'YAML::Tiny' => 0
     },
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
       (ABSTRACT_FROM  => 'lib/HTTP/UA/Parser.pm', # retrieve abstract from module
@@ -23,18 +23,18 @@ sub My_WriteMakefile {
     my $regexes2 = $Bin.'/regexes.yaml';
     my $dest = $Bin.'/lib/HTTP/UA/Parser';
     if (-e $regexes) {
-	copy($regexes, $dest) or die "File cannot be copied.";
+        copy($regexes, $dest) or die "File cannot be copied.";
     } elsif (-e $regexes2) {
-	copy($regexes2, $dest) or die "File cannot be copied.";
+        copy($regexes2, $dest) or die "File cannot be copied.";
     } else {
-	print "Can't locate regexes.yaml file\n";
-	print "We will try to fetch it from a remote server\n";
-	my $regexContent = getRegexes();
-	open my $file,'>',$regexes2 or die "can't open file $!";
-	print $file $regexContent;
-	close $file;
-	copy($regexes2, $dest) or die "File cannot be copied.";
-	print "regexes.yaml downloaded successfully\n";
+        print "Can't locate regexes.yaml file\n";
+        print "We will try to fetch it from a remote server\n";
+        my $regexContent = getRegexes();
+        open my $file,'>',$regexes2 or die "can't open file $!";
+        print $file $regexContent;
+        close $file;
+        copy($regexes2, $dest) or die "File cannot be copied.";
+        print "regexes.yaml downloaded successfully\n";
     }
 
     WriteMakefile(%params);
@@ -53,29 +53,29 @@ sub getRegexes {
 
     ##trying wget
     if (!$response){
-	print "Trying wget\n";
-	open $stream, "-|", "wget $url";
-	while(<$stream>) { $response .= "$_" };
+        print "Trying wget\n";
+        open $stream, "-|", "wget $url";
+        while(<$stream>) { $response .= "$_" };
     }
 
     ##trying lwp-request
     if (!$response){
-	print "Trying lwp-request\n";
-	open $stream, "-|", "lwp-request $url";
-	while(<$stream>) { $response .= "$_" };
+        print "Trying lwp-request\n";
+        open $stream, "-|", "lwp-request $url";
+        while(<$stream>) { $response .= "$_" };
     }
 
     return $response if $response;
     print "Trying to fetch using LWP::UserAgent\n";
     eval "use LWP::UserAgent";
     if ($@){
-	print "We couldn't locate LWP::UserAgent Module\n";
-	print "LWP::UserAgent required to fetch regexes.yaml from server\n";
-	print "Please install it or get regexes.yaml file manually from\n";
-	print "$url\n";
-	print "and place it in the root folder of this distro\n";
-	print "then run Makefile.PL again\n";
-	exit;
+        print "We couldn't locate LWP::UserAgent Module\n";
+        print "LWP::UserAgent required to fetch regexes.yaml from server\n";
+        print "Please install it or get regexes.yaml file manually from\n";
+        print "$url\n";
+        print "and place it in the root folder of this distro\n";
+        print "then run Makefile.PL again\n";
+        exit;
     }
     my $ua = LWP::UserAgent->new;
     $ua->timeout(5);

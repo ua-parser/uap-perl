@@ -48,4 +48,3 @@ is ($os2->patchMinor,undef);
 my $parse3 = $UA->makeParser([{regex => '(foo)'}]);
 is($parse3->('foo')->family, 'foo');
 done_testing();
-
