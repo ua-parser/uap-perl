@@ -3,7 +3,7 @@ use strict;
 use Test::More;
 use FindBin qw($Bin);
 
-my $source = 'test_user_agent_parser.yaml';
+my $source = 'tests/test_os.yaml';
 
 eval {
     require($Bin . '/utils.pl');
@@ -12,11 +12,12 @@ eval {
     foreach my $st (@{$yaml}){
         next if $st->{js_ua};
         $r->parse($st->{user_agent_string});
-        my $ua = $r->ua;
-        is ($ua->family, $st->{family});
-        is ($ua->major, $st->{major});
-        is ($ua->minor, $st->{minor});
-        is ($ua->patch, $st->{patch});
+        my $os = $r->os;
+        is ($os->family, $st->{family});
+        is ($os->major, $st->{major});
+        is ($os->minor, $st->{minor},$os->family);
+        is ($os->patch, $st->{patch});
+        is ($os->patchMinor, $st->{patch_minor});
     }
 };
 
@@ -29,4 +30,3 @@ done_testing();
 
 
 1;
-

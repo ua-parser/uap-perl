@@ -3,7 +3,7 @@ use strict;
 use Test::More;
 use FindBin qw($Bin);
 
-my $source = 'test_resources/pgts_browser_list.yaml';
+my $source = 'tests/test_device_brandmodel.yaml';
 
 if ($ENV{TRAVIS} || $ENV{DEV_TESTS}){
     eval {
@@ -11,13 +11,12 @@ if ($ENV{TRAVIS} || $ENV{DEV_TESTS}){
         my $yaml = get_test_yaml($source);
         my $r = HTTP::UA::Parser->new();
         foreach my $st (@{$yaml}){
-            next if $st->{js_ua};
-            $r->parse($st->{user_agent_string});
-            my $ua = $r->ua;
-            is ($ua->family, $st->{family});
-            is ($ua->major, $st->{major});
-            is ($ua->minor, $st->{minor});
-            is ($ua->patch, $st->{patch});
+            my $user_agent_string = $st->{user_agent_string};
+            $r->parse($user_agent_string);
+            my $device = $r->device;
+            is ($device->family, $st->{family} );
+            is ($device->brand,  $st->{brand}  );
+            is ($device->model,  $st->{model}  );
         }
     };
     

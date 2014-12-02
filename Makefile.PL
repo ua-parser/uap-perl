@@ -19,7 +19,7 @@ My_WriteMakefile(
 
 sub My_WriteMakefile {
     my %params=@_;
-    my $regexes = '../regexes.yaml';
+    my $regexes = './uap-core/regexes.yaml';
     my $regexes2 = $Bin.'/regexes.yaml';
     my $dest = $Bin.'/lib/HTTP/UA/Parser';
     if (-e $regexes) {
@@ -36,7 +36,7 @@ sub My_WriteMakefile {
 	copy($regexes2, $dest) or die "File cannot be copied.";
 	print "regexes.yaml downloaded successfully\n";
     }
-    
+
     WriteMakefile(%params);
 }
 
@@ -45,25 +45,26 @@ sub getRegexes {
     my $response;
     my $stream;
     my $url = 'https://raw.githubusercontent.com/ua-parser/uap-core/master/regexes.yaml';
-    #trying curl
+
+    ## trying curl
     print "Trying curl\n";
-    open $stream, "-|", "curl $url" or die;
+    open $stream, "-|", "curl $url";
     while(<$stream>) { $response .= "$_" };
-    
+
     ##trying wget
     if (!$response){
 	print "Trying wget\n";
-	open $stream, "-|", "wget $url" or die;
+	open $stream, "-|", "wget $url";
 	while(<$stream>) { $response .= "$_" };
     }
-    
+
     ##trying lwp-request
     if (!$response){
 	print "Trying lwp-request\n";
-	open $stream, "-|", "lwp-request $url" or die;
+	open $stream, "-|", "lwp-request $url";
 	while(<$stream>) { $response .= "$_" };
     }
-    
+
     return $response if $response;
     print "Trying to fetch using LWP::UserAgent\n";
     eval "use LWP::UserAgent";
@@ -71,7 +72,7 @@ sub getRegexes {
 	print "We couldn't locate LWP::UserAgent Module\n";
 	print "LWP::UserAgent required to fetch regexes.yaml from server\n";
 	print "Please install it or get regexes.yaml file manually from\n";
-	print "https://raw.github.com/tobie/ua-parser/master/regexes.yaml\n";
+	print "$url\n";
 	print "and place it in the root folder of this distro\n";
 	print "then run Makefile.PL again\n";
 	exit;

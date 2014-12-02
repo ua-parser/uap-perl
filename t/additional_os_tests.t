@@ -3,7 +3,7 @@ use strict;
 use Test::More;
 use FindBin qw($Bin);
 
-my $source = 'additional_os_tests.yaml';
+my $source = 'test_resources/additional_os_tests.yaml';
 
 eval {
     require($Bin . '/utils.pl');
