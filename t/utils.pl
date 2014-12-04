@@ -17,6 +17,10 @@ sub get_test_yaml {
     }
     else {
         my $ua = LWP::UserAgent->new;
+        
+        $ua->ssl_opts(verify_hostname => 0,
+                      SSL_verify_mode => 0x00);
+        
         my $req = HTTP::Request->new(GET => $resources . $file);
         my $res = $ua->request($req);
         die if !$res->is_success;
@@ -24,7 +28,6 @@ sub get_test_yaml {
     }
 
     die if !$content;
-
     
     my $yaml = fix_yaml($content);
     return YAML::Tiny->read_string( $yaml )->[0]->{test_cases};
