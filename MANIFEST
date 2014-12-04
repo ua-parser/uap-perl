@@ -13,7 +13,6 @@ t/HTTP-UA-Parser.t
 t/os.t
 t/pgts_browser_list.t
 t/test_device.t
-t/test_device_brandmodel.t
 t/test_ua.t
 t/test_os.t
 t/ua.t
