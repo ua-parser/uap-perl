@@ -49,7 +49,7 @@ Parsers operating system part of the user agent
 
 Parses device part of the user agent
 
-=head1 Strigify Methods
+=head1 Stringify Methods
 
 Methods to print results as strings
 
