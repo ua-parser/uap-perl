@@ -3,18 +3,22 @@ use ExtUtils::MakeMaker;
 use FindBin qw($Bin);
 use File::Copy;
 
-# See lib/ExtUtils/MakeMaker.pm for details of how to influence
-# the contents of the Makefile that is written.
 My_WriteMakefile(
     NAME              => 'HTTP::UA::Parser',
-    VERSION_FROM      => 'lib/HTTP/UA/Parser.pm', # finds $VERSION
+    VERSION_FROM      => 'lib/HTTP/UA/Parser.pm',
+    ABSTRACT_FROM  => 'lib/HTTP/UA/Parser.pm',
     EXE_FILES    => ['script/ua_parser'],
     PREREQ_PM         => {
         'YAML::Tiny' => 0
     },
-    ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
-      (ABSTRACT_FROM  => 'lib/HTTP/UA/Parser.pm', # retrieve abstract from module
-       AUTHOR         => 'Mamod A. Mehyar <mamod.mehyar@gmail.com>') : ())
+    LICENSE        => 'perl',
+    AUTHOR         => 'Mamod Mehyar <mamod.mehyar@gmail.com>',
+    META_MERGE => {
+        resources => {
+            repository => 'git://github.com/ua-parser/uap-perl.git',
+            bugtracker => 'https://github.com/ua-parser/uap-perl/issues',
+        }
+    }
 );
 
 sub My_WriteMakefile {

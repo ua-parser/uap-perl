@@ -18,3 +18,9 @@ Revision history for Perl extension HTTP::UA::Parser.
 	- Even more tests
 	- Fixing 0 and undef issue with UA parser
 	- Adding makeParser functions
+
+0.006 Fri Jul 10 2015
+	- lots of changes thanks to @commenthol - https://github.com/commenthol
+	- adding device brand and device model support by @commenthol
+	- Code cleaning
+	- Fix documentation

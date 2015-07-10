@@ -1,10 +1,13 @@
 =head1 NAME
 
-HTTP::UA::Parser
+HTTP::UA::Parser - Perl User Agent Parser
+
+=for html
+<a href="https://travis-ci.org/ua-parser/uap-perl"><img src="https://travis-ci.org/ua-parser/uap-perl.svg?branch=master"></a>
 
 =head1 DESCRIPTION
 
-Perl port of the ua-parser project - L<https://github.com/tobie/ua-parser>
+Perl port of the ua-parser project - L<https://github.com/ua-parser>
 
 =head1 SYNOPSIS
 
@@ -26,6 +29,8 @@ Perl port of the ua-parser project - L<https://github.com/tobie/ua-parser>
     print $r->os->patch;              # -> undef
     
     print $r->device->family;         # -> "iPhone"
+    print $r->device->brand;          # -> "Apple"
+    print $r->device->model;          # -> "iPhone"
     
 =head1 Methods
 
@@ -83,6 +88,14 @@ returns versions patch part of os/browser
 
 returns version patch minor part of os/browser
 
+=item brand()
+
+returns brand name of device
+
+=item model()
+
+returns model name of device
+
 =back
     
 =head1 INSTALLATION
@@ -99,15 +112,6 @@ Or from your local download, unpack and:
 Then install:
 
     % make install
-
-=head1 USING WITHOUT INSTALLATION
-
-You can use HTTP::UA::Parser Module without installation directly from the forked ua-parser
-project, to do so, you need to include lib path of the perl port
-
-    use lib '/full/path/to/ua-parser/perl/lib';
-    use HTTP::UA::Parser;
-    ...
 
 =head1 COMMAND LINE
 
@@ -129,7 +133,7 @@ Mamod A. Mehyar, E<lt>mamod.mehyar@gmail.comE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2012 by Mamod A. Mehyar
+Copyright (C) 2015 by Mamod A. Mehyar & other contributors
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.10.1 or,

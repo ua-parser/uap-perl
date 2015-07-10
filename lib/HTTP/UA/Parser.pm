@@ -2,13 +2,13 @@ package HTTP::UA::Parser;
 use strict;
 use warnings;
 use YAML::Tiny 'LoadFile';
-our $VERSION = '0.005';
+our $VERSION = '0.006';
 my ($REGEX, $PATH, $PARSER);
 my $PACKAGE = __PACKAGE__;
 
 sub new {
-    my ($class,$op) = @_;
-    my ($ua,$path);
+    my ($class, $op) = @_;
+    my ($ua, $path);
     if (ref $op eq 'HASH'){
         $path = $op->{regex};
         $ua = $op->{ua};
@@ -20,9 +20,7 @@ sub new {
         } else {
             $PATH = HTTP::UA::Parser::Utils::getPath();
             my $regFile;
-            if (-e ($regFile = $PATH.'../../../../../../regexes.yaml')){}
-            elsif (-e ($regFile = $PATH.'/regexes.yaml')){}
-            else {
+            unless (-e ($regFile = $PATH.'/regexes.yaml')){
                 die
                 "Can't find regexes.yaml file\n".
                 "you can download/update it using command line by typing\n".
@@ -38,7 +36,7 @@ sub new {
     
     my $self = {
         user_agent => $ua || $ENV{HTTP_USER_AGENT},
-    path => $PATH
+        path => $PATH
     };
     
     return bless($self,$class);
@@ -88,7 +86,7 @@ sub parse {
 sub makeParser {
     my $self = shift;
     my $regexes = shift;
-    return HTTP::UA::Parser::Utils::makeParser($regexes,\&_makeParsers);
+    return HTTP::UA::Parser::Utils::makeParser($regexes, \&_makeParsers);
 }
 
 sub _makeParsers {
@@ -132,7 +130,7 @@ sub parse {
 sub makeParser {
     my $self = shift;
     my $regexes = shift;
-    return HTTP::UA::Parser::Utils::makeParser($regexes,\&_makeParsers);
+    return HTTP::UA::Parser::Utils::makeParser($regexes, \&_makeParsers);
 }
 
 sub _makeParsers {
@@ -223,9 +221,15 @@ sub _makeParsers {
         my $str = shift;
         my @m = $str =~ $qr;
         if (!@m) { return undef; }
-        my $family = $deviceRep ? HTTP::UA::Parser::Utils::multiReplace($deviceRep, \@m) : ($m[0] eq "1" ? undef : $m[0]);
-        my $brand  = $brandRep  ? HTTP::UA::Parser::Utils::multiReplace($brandRep, \@m)  : undef;
-        my $model  = $modelRep  ? HTTP::UA::Parser::Utils::multiReplace($modelRep, \@m)  : ($m[0] eq "1" ? undef : $m[0]);
+        my $family = $deviceRep ? HTTP::UA::Parser::Utils::multiReplace($deviceRep, \@m) 
+                                : ($m[0] eq "1" ? undef : $m[0]);
+
+        my $brand  = $brandRep  ? HTTP::UA::Parser::Utils::multiReplace($brandRep, \@m)  
+                                : undef;
+
+        my $model  = $modelRep  ? HTTP::UA::Parser::Utils::multiReplace($modelRep, \@m)  
+                                : ($m[0] eq "1" ? undef : $m[0]);
+        
         return ($family, $brand, $model);
     };
     return $parser;
@@ -292,7 +296,7 @@ package HTTP::UA::Parser::Utils;
 
 sub makeParser {
     my $regexes = shift;
-    my $makeParser = shift || \&_makeparser;
+    my $makeParser = shift;
     my @parsers = map {
         $makeParser->($_);
     } @{$regexes};
@@ -306,29 +310,6 @@ sub makeParser {
         }
         
         HTTP::UA::Parser::Base->new();
-    };
-    
-    return $parser;
-}
-
-sub _makeParsers {
-    
-    my ($obj) = shift;
-    my $regexp = $obj->{regex};
-    my $famRep = $obj->{family_replacement};
-    my $majorRep = $obj->{v1_replacement};
-    my $minorRep = $obj->{v2_replacement};
-    my $patchRep = $obj->{v3_replacement};
-    
-    my $parser = sub {
-        my $str = shift;
-        my @m = HTTP::UA::Parser::Utils::exe( $regexp , $str );
-        if (!@m) { return undef; }
-        my $family = defined $famRep ? replace($famRep,qr/\$1/,$m[0]) : $m[0];
-        my $major = defined $majorRep ?  $majorRep : $m[1];
-        my $minor = defined $minorRep ?  $minorRep : $m[2];
-        my $patch = defined $patchRep ?  $patchRep : $m[3];
-        return ($family, $major, $minor, $patch);
     };
     
     return $parser;
@@ -383,16 +364,16 @@ sub getPath {
 1;
 
 __END__
-
-=pod
-
 =head1 NAME
 
 HTTP::UA::Parser - Perl User Agent Parser
 
+=for html
+<a href="https://travis-ci.org/ua-parser/uap-perl"><img src="https://travis-ci.org/ua-parser/uap-perl.svg?branch=master"></a>
+
 =head1 DESCRIPTION
 
-Perl port of the ua-parser project - L<https://github.com/tobie/ua-parser>.
+Perl port of the ua-parser project - L<https://github.com/ua-parser>
 
 =head1 SYNOPSIS
 
@@ -439,7 +420,7 @@ Parsers operating system part of the user agent
 
 Parses device part of the user agent
 
-=head1 Strigify Methods
+=head1 Stringify Methods
 
 Methods to print results as strings
 
@@ -498,16 +479,28 @@ Then install:
 
     % make install
 
+=head1 COMMAND LINE
+
+To update regexes.yaml file from command line
+    
+    % ua_parser -u
+
+To parse some user agent from command line
+
+    % ua_parser -p "some user agent"
+    
+Help usage
+
+    % ua_parser -h
+
 =head1 AUTHOR
 
 Mamod A. Mehyar, E<lt>mamod.mehyar@gmail.comE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2013 by Mamod A. Mehyar
+Copyright (C) 2015 by Mamod A. Mehyar & other contributors
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.10.1 or,
 at your option, any later version of Perl 5 you may have available.
-
-=cut
