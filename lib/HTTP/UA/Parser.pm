@@ -148,11 +148,11 @@ sub _makeParsers {
         my $str = shift;
         my @m = $str =~ $qr;
         if (!@m) { return undef; }
-        my $family = $famRep ? HTTP::UA::Parser::Utils::replace($famRep,qr/\$1/,$m[0]) : $m[0];
-        my $major = defined $majorRep ? $majorRep : $m[1];
-        my $minor = defined $minorRep ? $minorRep : $m[2];
-        my $patch = defined $patchRep ? $patchRep : $m[3];
-        my $patchMinor = defined $patchMinorRep ? $patchMinorRep : $m[4];
+        my $family = (defined $famRep ? HTTP::UA::Parser::Utils::multiReplace($famRep, \@m) : $m[0]) || 'Other';
+        my $major = defined $majorRep ? HTTP::UA::Parser::Utils::multiReplace($majorRep, \@m) : $m[1];
+        my $minor = defined $minorRep ? HTTP::UA::Parser::Utils::multiReplace($minorRep, \@m) : $m[2];
+        my $patch = defined $patchRep ? HTTP::UA::Parser::Utils::multiReplace($patchRep, \@m) : $m[3];
+        my $patchMinor = defined $patchMinorRep ? HTTP::UA::Parser::Utils::multiReplace($patchMinorRep, \@m) : $m[4];
         return ($family, $major, $minor, $patch, $patchMinor);
     };
     
