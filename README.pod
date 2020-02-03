@@ -13,25 +13,25 @@ Perl port of the ua-parser project - L<https://github.com/ua-parser>
 
     use HTTP::UA::Parser;
     my $r = HTTP::UA::Parser->new();
-    
+
     print $r->ua->toString();         # -> "Safari 5.0.1"
     print $r->ua->toVersionString();  # -> "5.0.1"
     print $r->ua->family;             # -> "Safari"
     print $r->ua->major;              # -> "5"
     print $r->ua->minor;              # -> "0"
     print $r->ua->patch;              # -> "1"
-    
+
     print $r->os->toString();         # -> "iOS 5.1"
     print $r->os->toVersionString();  # -> "5.1"
     print $r->os->family              # -> "iOS"
     print $r->os->major;              # -> "5"
     print $r->os->minor;              # -> "1"
     print $r->os->patch;              # -> undef
-    
+
     print $r->device->family;         # -> "iPhone"
     print $r->device->brand;          # -> "Apple"
     print $r->device->model;          # -> "iPhone"
-    
+
 =head1 Methods
 
 =head2 new()
@@ -97,7 +97,7 @@ returns brand name of device
 returns model name of device
 
 =back
-    
+
 =head1 INSTALLATION
 
 From CPAN shell simply type
@@ -108,7 +108,7 @@ Or from your local download, unpack and:
 
     % perl Makefile.PL
     % make && make test
-    
+
 Then install:
 
     % make install
@@ -116,13 +116,13 @@ Then install:
 =head1 COMMAND LINE
 
 To update regexes.yaml file from command line
-    
+
     % ua_parser -u
 
 To parse some user agent from command line
 
     % ua_parser -p "some user agent"
-    
+
 Help usage
 
     % ua_parser -h
@@ -133,7 +133,7 @@ Mamod A. Mehyar, E<lt>mamod.mehyar@gmail.comE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2015 by Mamod A. Mehyar & other contributors
+Copyright (C) 2020 by Mamod A. Mehyar & other contributors
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.10.1 or,
