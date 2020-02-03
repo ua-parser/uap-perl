@@ -281,13 +281,22 @@ sub toString {
     return $self->family . $suffix;
 }
 
-sub family     {   shift->{family}     }
-sub major      {   shift->{major}      }
-sub minor      {   shift->{minor}      }
-sub patch      {   shift->{patch}      }
-sub patchMinor {   shift->{patchMinor} }
-sub brand      {   shift->{brand}      }
-sub model      {   shift->{model}      }
+sub toUndef {
+    my $val = shift;
+    if (defined $val && $val eq "") {
+        return undef;
+    }
+
+    return $val;
+}
+
+sub family     {   shift->{family}              }
+sub major      {   toUndef(shift->{major})      }
+sub minor      {   toUndef(shift->{minor})      }
+sub patch      {   toUndef(shift->{patch})      }
+sub patchMinor {   toUndef(shift->{patchMinor}) }
+sub brand      {   shift->{brand}               }
+sub model      {   shift->{model}               }
 
 ##=============================================================================
 ## Utils Package
