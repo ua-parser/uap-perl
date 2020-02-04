@@ -2,7 +2,7 @@ package HTTP::UA::Parser;
 use strict;
 use warnings;
 use YAML::Tiny 'LoadFile';
-our $VERSION = '0.007';
+our $VERSION = '0.007_1';
 my ($REGEX, $PATH, $PARSER);
 my $PACKAGE = __PACKAGE__;
 
